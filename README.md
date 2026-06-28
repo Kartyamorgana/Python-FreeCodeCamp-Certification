@@ -1,6 +1,6 @@
 # 🐍 FreeCodeCamp Python Certification Projects
 
-This repository contains all my workshops, labs, and certificated project solutions completed during the **[FreeCodeCamp Python Certification](https://www.freecodecamp.org/learn/python-v9/)** courses.
+This repository contains all my workshops, labs, and certificated project solutions completed during the **[FreeCodeCamp Python Certification](https://www.freecodecamp.org/learn/python-v9/)** courses. And I also add some off my personal projects based on the module that I'm learning.
 I also add every module review to every folder README.
 
 > 🎯 **Goal:** Build a solid foundation in Python, data analysis, scientific computing, and machine learning through hands-on projects.
