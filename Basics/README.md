@@ -1207,7 +1207,3 @@ Bagian ini merangkum semua materi yang telah dibahas sebelumnya, memberikan gamb
 -   **E (Enclosing Function Local)**: Variabel di fungsi luar (untuk fungsi bersarang). Gunakan `nonlocal` untuk memodifikasinya.
 -   **G (Global)**: Variabel di tingkat modul (file). Gunakan `global` untuk memodifikasinya dari dalam fungsi.
 -   **B (Built-in)**: Nama-nama bawaan Python (misalnya `print`, `True`).
-
----
-
-Dengan memahami semua konsep di atas, Anda telah memiliki fondasi yang kuat dalam dasar-dasar Python. Selanjutnya, Anda dapat mendalami materi seperti struktur data lanjutan (misalnya list, dictionary lebih dalam), penanganan *exception*, modul dan paket, penanganan file, dan paradigma pemrograman berorientasi objek atau fungsional.

@@ -1227,6 +1227,3 @@ Baik fungsi reguler maupun *lambda* memiliki tempatnya masing-masing. Gunakan *l
 -   Sintaks: `lambda argumen: ekspresi`.
 -   Berguna untuk ekspresi yang singkat dan sederhana, sering dilewatkan sebagai argumen ke fungsi *higher-order* seperti `map()` dan `filter()`.
 -   Sebaiknya tidak ditugaskan ke variabel; gunakan `def` untuk fungsi bernama dan logika yang lebih kompleks.
-
----
-Dengan memahami seluruh materi di atas, Anda telah memiliki dasar yang kuat tentang *list*, *tuple*, *range*, *loop*, serta berbagai fungsi pendukung di Python. Latihan secara konsisten akan membuat Anda semakin mahir.

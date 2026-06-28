@@ -218,7 +218,3 @@ Untuk keluar dari *shell* interaktif, Anda bisa mengetik `exit()` dan menekan En
 - **Prompt `>>>`**: Menandakan bahwa Python siap menerima dan mengeksekusi perintah Anda.
 - **Siklus REPL** (*Read, Evaluate, Print, Loop*): *Interpreter* membaca masukan, mengevaluasi kode, mencetak hasilnya, lalu kembali ke *prompt* untuk perintah berikutnya.
 - **Keluar**: Gunakan perintah `exit()` atau pintasan keyboard `Ctrl + D` (untuk Mac/Linux) / `Ctrl + Z` lalu `Enter` (untuk Windows).
-
----
-
-Dengan menyelesaikan panduan ini, Anda kini sudah berhasil menginstal Python, dapat menjalankan skrip Python pertama Anda, dan memahami cara memanfaatkan *shell* interaktif untuk bereksperimen dengan kode Python secara lokal.
