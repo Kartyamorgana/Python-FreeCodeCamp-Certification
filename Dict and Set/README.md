@@ -1,474 +1,890 @@
-## Ulasan `Dictionary` dan `Set`
+## Daftar Isi
+1. [Apa Itu Dictionary dan Bagaimana Cara Kerjanya?](#apa-itu-dictionary-dan-bagaimana-cara-kerjanya)
+2. [Metode-Metode Penting pada Dictionary](#metode-metode-penting-pada-dictionary)
+3. [Teknik Umum untuk Melakukan Perulangan (*Loop*) pada Dictionary](#teknik-umum-untuk-melakukan-perulangan-loop-pada-dictionary)
+4. [Apa Itu Set dan Bagaimana Cara Kerjanya?](#apa-itu-set-dan-bagaimana-cara-kerjanya)
+5. [Operasi Himpunan Matematika pada Set](#operasi-himpunan-matematika-pada-set)
+6. [Pustaka Standar Python dan Cara Mengimpor Modul](#pustaka-standar-python-dan-cara-mengimpor-modul)
+7. [Idiom Penting: `if __name__ == '__main__'`](#idiom-penting-if-__name__-__main__)
+8. [Rangkuman: Dictionary dan Set](#rangkuman-dictionary-dan-set)
 
-### Dictionary
+### Apa Itu Dictionary dan Bagaimana Cara Kerjanya?
 
-`Dictionary` adalah struktur data bawaan Python yang menyimpan koleksi pasangan *key-value*. Setiap *key* harus unik dan bertipe data *immutable* (seperti *string*, angka, atau *tuple*), sedangkan *value* bisa bertipe data apa saja.
+Dictionary dalam Python adalah struktur data bawaan yang menyimpan koleksi pasangan **kunci-nilai** (*key-value pairs*). Cara kerjanya sangat mirip dengan kamus sungguhan: Anda mencari sebuah kata (kunci) untuk menemukan maknanya (nilai).
 
-**Sintaks Umum:**
+Dengan dictionary Python, Anda menggunakan **kunci** untuk mendapatkan **nilai** yang terkait. Gunakan dictionary ketika Anda perlu:
+* Mengasosiasikan nilai dengan kunci yang unik.
+* Mencari nilai dengan cepat berdasarkan kuncinya.
+* Merepresentasikan data yang terstruktur.
+
+#### Sintaks Dasar Dictionary
 
 ```python
 dictionary = {
     key1: value1,
-    key2: value2,
-    # ...
+    key2: value2
 }
 ```
 
-**Konstruktor `dict()`:**
+*   Variabel di sisi kiri menampung objek dictionary. (Menyimpan dictionary di variabel sangat umum agar tetap ada di memori dan bisa digunakan lagi.)
+*   Kurung kurawal `{}` membungkus seluruh pasangan kunci-nilai.
+*   Setiap kunci dipisahkan dari nilainya oleh tanda titik dua `:`.
+*   Antar pasangan dipisahkan oleh koma `,` (kecuali setelah pasangan terakhir, koma boleh ada atau tidak).
+*   **Kunci harus unik** dalam satu dictionary, dan harus bertipe data *immutable* (tidak dapat diubah, misalnya string, angka, tuple). Nilai boleh duplikat dan bisa bertipe data apa pun.
 
-Anda dapat membuat `dictionary` menggunakan konstruktor `dict()`. Metode ini menerima *list* dari *tuple*, di mana setiap *tuple* berisi pasangan `(key, value)`.
+**Contoh** dictionary yang menyimpan informasi resep *Margherita Pizza*:
 
 ```python
-pizza = dict([('name', 'Margherita Pizza'), ('price', 8.9), ('calories_per_slice', 250), ('toppings', ['mozzarella', 'basil'])])
-print(pizza)
-# Output: {'name': 'Margherita Pizza', 'price': 8.9, 'calories_per_slice': 250, 'toppings': ['mozzarella', 'basil']}
+pizza = {
+    'name': 'Margherita Pizza',
+    'price': 8.9,
+    'calories_per_slice': 250,
+    'toppings': ['mozzarella', 'basil']
+}
 ```
 
-**Mengakses Nilai dengan Notasi Kurung Siku:**
+Dictionary ini memiliki empat pasangan kunci-nilai: `'name'`, `'price'`, `'calories_per_slice'`, dan `'toppings'`.
 
-Untuk mengakses *value* yang terkait dengan sebuah *key*, gunakan notasi kurung siku `[]`.
+#### Membuat Dictionary dengan Konstruktor `dict()`
+
+Alternatif lain adalah menggunakan konstruktor `dict()`, yang membangun dictionary dari urutan pasangan kunci-nilai.
+
+Sintaks ekuivalen untuk contoh pizza di atas:
+
+```python
+pizza = dict([
+    ('name', 'Margherita Pizza'),
+    ('price', 8.9),
+    ('calories_per_slice', 250),
+    ('toppings', ['mozzarella', 'basil'])
+])
+```
+
+Kita memberikan daftar (*list*) yang berisi *tuple*. Setiap tuple memiliki kunci sebagai elemen pertama dan nilai sebagai elemen kedua.
+
+#### Mengakses dan Memperbarui Nilai
+
+Untuk mengakses nilai dari suatu pasangan, gunakan notasi kurung siku (*bracket notation*):
 
 ```python
 dictionary[key]
 ```
-Contoh:
+
+*   Tulis nama variabel dictionary, diikuti sepasang kurung siku `[]`, dan di dalamnya kunci yang ingin diakses.
+
+**Contoh**:
+
 ```python
 print(pizza['name'])
 # Output: Margherita Pizza
 ```
 
-### Metode `Dictionary` yang Umum
+Ekspresi ini akan menghasilkan `'Margherita Pizza'`.
 
-Berikut adalah beberapa metode yang sering digunakan pada `dictionary`:
+**Memperbarui nilai** cukup dengan menggunakan operator penugasan `=` diikuti nilai baru:
 
-*   **`get(key, default)`**:
-    Mengembalikan *value* yang terkait dengan `key` yang diberikan. Jika `key` tidak ditemukan, ia akan mengembalikan `default` (jika disediakan), atau `None` jika `default` tidak disediakan. Ini lebih aman daripada notasi kurung siku karena tidak akan memunculkan `KeyError`.
-
-    ```python
-    print(pizza.get('price', 0.0))
-    # Output: 8.9
-    print(pizza.get('weight', 0.0))
-    # Output: 0.0 (key 'weight' tidak ada, mengembalikan default)
-    ```
-
-*   **`keys()`**:
-    Mengembalikan *view object* yang berisi semua *key* dalam `dictionary`. *View object* ini mencerminkan perubahan pada `dictionary`.
-
-    ```python
-    print(pizza.keys())
-    # Output: dict_keys(['name', 'price', 'calories_per_slice', 'toppings'])
-    ```
-
-*   **`values()`**:
-    Mengembalikan *view object* yang berisi semua *value* dalam `dictionary`.
-
-    ```python
-    print(pizza.values())
-    # Output: dict_values(['Margherita Pizza', 8.9, 250, ['mozzarella', 'basil']])
-    ```
-
-*   **`items()`**:
-    Mengembalikan *view object* yang berisi semua pasangan *key-value* dalam `dictionary` sebagai *tuple*.
-
-    ```python
-    print(pizza.items())
-    # Output: dict_items([('name', 'Margherita Pizza'), ('price', 8.9), ('calories_per_slice', 250), ('toppings', ['mozzarella', 'basil'])])
-    ```
-
-*   **`clear()`**:
-    Menghapus semua pasangan *key-value* dari `dictionary`, membuatnya kosong.
-
-    ```python
-    my_dict = {'a': 1, 'b': 2}
-    my_dict.clear()
-    print(my_dict)
-    # Output: {}
-    ```
-
-*   **`pop(key, default)`**:
-    Menghapus item dengan `key` yang ditentukan dan mengembalikan *value*nya.
-    *   Jika `key` tidak ditemukan dan `default` disediakan, `default` akan dikembalikan.
-    *   Jika `key` tidak ditemukan dan `default` tidak disediakan, akan memunculkan `KeyError`.
-
-    ```python
-    print(pizza.pop('price', 10))
-    # Output: 8.9
-    # pizza sekarang adalah: {'name': 'Margherita Pizza', 'calories_per_slice': 250, 'toppings': ['mozzarella', 'basil']}
-
-    # pizza.pop('total_price') # Ini akan memunculkan KeyError
-    ```
-    *Catatan:* Urutan argumen adalah `key` kemudian `default`.
-
-*   **`popitem()`**:
-    Menghapus dan mengembalikan pasangan *key-value* terakhir yang dimasukkan ke dalam `dictionary`. Mulai Python 3.7, `dictionary` mempertahankan urutan penyisipan.
-
-    ```python
-    pizza = {'name': 'Margherita Pizza', 'price': 8.9, 'calories_per_slice': 250}
-    print(pizza.popitem())
-    # Output: ('calories_per_slice', 250)
-    print(pizza)
-    # Output: {'name': 'Margherita Pizza', 'price': 8.9}
-    ```
-
-*   **`update(other_dict)`**:
-    Memperbarui `dictionary` dengan pasangan *key-value* dari `other_dict`.
-    *   Jika `key` dari `other_dict` sudah ada di `dictionary` awal, *value*nya akan ditimpa.
-    *   Jika `key` baru, pasangan *key-value* tersebut akan ditambahkan.
-
-    ```python
-    pizza.update({'price': 15, 'total_time': 25})
-    print(pizza)
-    # Output: {'name': 'Margherita Pizza', 'price': 15, 'total_time': 25}
-    ```
-
-### Melakukan *Loop* pada `Dictionary`
-
-Misalkan kita memiliki `dictionary` berikut:
 ```python
-products = {'Laptop': 990, 'Smartphone': 600, 'Tablet': 250, 'Headphones': 70}
+pizza['name'] = 'Margherita'
+print(pizza['name'])
+# Output: Margherita
 ```
 
-*   **Iterasi pada *Value*:**
-    Untuk mengulang hanya *value*-nya, gunakan metode `values()`.
+Sekarang nilai dari kunci `'name'` telah berubah menjadi `'Margherita'`.
 
-    ```python
-    for price in products.values():
-        print(price)
-    ```
-    Output:
-    ```
-    990
-    600
-    250
-    70
-    ```
-
-*   **Iterasi pada *Key*:**
-    Anda bisa mengulang `dictionary` secara langsung atau menggunakan metode `keys()`. Keduanya akan mengulang *key*.
-
-    ```python
-    for product in products.keys():
-        print(product)
-    # atau
-    for product in products: # Default iterasi pada dictionary adalah keys
-        print(product)
-    ```
-    Output:
-    ```
-    Laptop
-    Smartphone
-    Tablet
-    Headphones
-    ```
-
-*   **Iterasi pada Pasangan *Key-Value*:**
-    Metode `items()` mengembalikan *tuple* `(key, value)` untuk setiap item.
-
-    ```python
-    for item in products.items():
-        print(item)
-    ```
-    Output:
-    ```
-    ('Laptop', 990)
-    ('Smartphone', 600)
-    ('Tablet', 250)
-    ('Headphones', 70)
-    ```
-
-    Untuk membongkar (*unpacking*) *key* dan *value* ke dalam variabel terpisah saat iterasi:
-
-    ```python
-    for product, price in products.items():
-        print(product, price)
-    ```
-    Output:
-    ```
-    Laptop 990
-    Smartphone 600
-    Tablet 250
-    Headphones 70
-    ```
-
-*   **Fungsi `enumerate()` dengan `Dictionary`:**
-    Jika Anda perlu melacak indeks saat mengulang item, gunakan `enumerate()`. Ini akan memberikan indeks dan item untuk setiap iterasi.
-
-    ```python
-    for index, item in enumerate(products.items()):
-        print(index, item)
-    ```
-    Output:
-    ```
-    0 ('Laptop', 990)
-    1 ('Smartphone', 600)
-    2 ('Tablet', 250)
-    3 ('Headphones', 70)
-    ```
-
-    Anda dapat mengatur nilai awal hitungan `enumerate()` dengan argumen kedua:
-
-    ```python
-    for index, item in enumerate(products.items(), 1):
-        print(index, item)
-    ```
-    Output:
-    ```
-    1 ('Laptop', 990)
-    2 ('Smartphone', 600)
-    3 ('Tablet', 250)
-    4 ('Headphones', 70)
-    ```
+> **Catatan**: Jika kunci yang ditulis belum ada di dictionary, maka sebuah pasangan kunci-nilai baru akan ditambahkan. Mulai Python versi 3.7, dictionary mempertahankan urutan penyisipan (*insertion order*), yang membantu saat Anda perlu melakukan iterasi.
 
 ---
 
-### Set
+### Metode-Metode Penting pada Dictionary
 
-`Set` adalah struktur data bawaan di Python yang menyimpan koleksi item unik yang tidak terurut (tidak ada urutan tertentu). Ini berarti elemen tidak bisa diakses berdasarkan indeks atau *key*. `Set` bersifat *mutable*, tetapi hanya dapat berisi elemen bertipe data *immutable* (seperti angka, *string*, atau *tuple*).
+Dictionary memiliki beragam metode bawaan untuk operasi sehari-hari.
 
-**Mendefinisikan `Set`:**
+#### `get()` – Mengambil Nilai dengan Nilai Default
 
-Elemen `set` ditulis di dalam kurung kurawal `{}` dan dipisahkan dengan koma.
+Metode `.get()` mengambil nilai yang terkait dengan suatu kunci. Ia mirip dengan notasi kurung siku, namun memiliki keuntungan: Anda dapat menetapkan **nilai default** sehingga tidak muncul error jika kunci tidak ditemukan.
+
+```python
+dictionary.get(key, default)
+```
+
+**Contoh**:
+
+```python
+pizza = {
+    'name': 'Margherita Pizza',
+    'price': 8.9,
+    'calories_per_slice': 250,
+    'toppings': ['mozzarella', 'basil']
+}
+
+print(pizza.get('toppings', []))   # Output: ['mozzarella', 'basil']
+print(pizza.get('crust_type', 'thin')) # Output: thin
+```
+
+Jika `'toppings'` ada, metode akan mengembalikan daftar aslinya. Jika `'crust_type'` tidak ada, ia akan mengembalikan `thin` (nilai default yang diberikan).
+
+#### `keys()` dan `values()` – Melihat Semua Kunci dan Nilai
+
+Metode `keys()` mengembalikan *view object* (objek tampilan) yang berisi seluruh kunci dictionary.
+Metode `values()` mengembalikan *view object* yang berisi seluruh nilai dictionary.
+
+*View object* hanyalah cara untuk melihat isi dictionary tanpa membuat salinan data terpisah. Ini berarti jika dictionary berubah, *view object* juga akan mencerminkan perubahan tersebut secara *real-time*.
+
+```python
+print(pizza.keys())
+# Output: dict_keys(['name', 'price', 'calories_per_slice', 'toppings'])
+
+print(pizza.values())
+# Output: dict_values(['Margherita Pizza', 8.9, 250, ['mozzarella', 'basil']])
+```
+
+#### `items()` – Melihat Pasangan Kunci-Nilai
+
+Mengembalikan *view object* berisi semua pasangan (kunci, nilai) sebagai tuple.
+
+```python
+print(pizza.items())
+# Output: dict_items([('name', 'Margherita Pizza'), ('price', 8.9), ('calories_per_slice', 250), ('toppings', ['mozzarella', 'basil'])])
+```
+
+#### `clear()` – Menghapus Semua Isi
+
+Menghapus seluruh pasangan kunci-nilai dari dictionary.
+
+```python
+pizza.clear()
+print(pizza)
+# Output: {}
+```
+
+#### `pop()` – Menghapus dan Mengembalikan Nilai
+
+```python
+pizza = {
+    'name': 'Margherita Pizza',
+    'price': 8.9,
+    'calories_per_slice': 250
+}
+
+# Menghapus 'price' dan mengembalikan nilainya
+print(pizza.pop('price'))      # Output: 8.9
+print(pizza)                   # Output: {'name': 'Margherita Pizza', 'calories_per_slice': 250}
+
+# Menghapus 'total_price' (tidak ada), mengembalikan nilai default 10
+print(pizza.pop('total_price', 10)) # Output: 10
+print(pizza)                        # Output: {'name': 'Margherita Pizza', 'calories_per_slice': 250}
+
+# Jika kunci tidak ada dan tidak disertakan default, Python akan melempar KeyError
+# pizza.pop('non_existent_key') # Ini akan menyebabkan KeyError
+```
+
+*   Argumen pertama: kunci yang akan dihapus.
+*   Argumen kedua (opsional): nilai default yang dikembalikan jika kunci tidak ditemukan.
+*   Jika kunci tidak ada dan tidak disertakan default, Python akan melempar `KeyError`.
+
+#### `popitem()` – Menghapus Item Terakhir yang Disisipkan
+
+Sejak Python 3.7, dictionary mempertahankan urutan penyisipan. `.popitem()` akan menghapus pasangan yang **terakhir dimasukkan** dan mengembalikannya sebagai tuple.
+
+```python
+pizza = {
+    'name': 'Margherita Pizza',
+    'price': 8.9,
+    'calories_per_slice': 250
+}
+
+print(pizza.popitem())
+# Output: ('calories_per_slice', 250)
+print(pizza)
+# Output: {'name': 'Margherita Pizza', 'price': 8.9}
+```
+
+#### `update()` – Memperbarui/Menambah Banyak Pasangan Sekaligus
+
+Metode `update()` digunakan untuk memperbarui dictionary dengan pasangan kunci-nilai dari dictionary atau iterable lain.
+
+```python
+pizza = {
+    'name': 'Margherita Pizza',
+    'price': 8.9,
+    'calories_per_slice': 250,
+    'toppings': ['mozzarella', 'basil']
+}
+
+pizza.update({'price': 15, 'total_time': 25})
+print(pizza)
+```
+
+Setelah operasi di atas, dictionary `pizza` menjadi:
+
+```
+{
+    'name': 'Margherita Pizza',
+    'price': 15,
+    'calories_per_slice': 250,
+    'toppings': ['mozzarella', 'basil'],
+    'total_time': 25
+}
+```
+
+*   Jika kunci sudah ada (misalnya `'price'`), nilainya akan **ditimpa**.
+*   Jika kunci baru (misalnya `'total_time'`), maka pasangan tersebut **ditambahkan**.
+
+---
+
+### Teknik Umum untuk Melakukan Perulangan (*Loop*) pada Dictionary
+
+Anda dapat melakukan perulangan pada dictionary untuk mengakses dan memproses pasangan kunci-nilai. Hal ini berguna saat memperbarui nilai atau menerapkan logika tertentu.
+
+Misalkan kita memiliki dictionary `products` yang memetakan produk ke harganya:
+
+```python
+products = {
+    'Laptop': 990,
+    'Smartphone': 600,
+    'Tablet': 250,
+    'Headphones': 70,
+}
+```
+
+#### Iterasi Hanya Nilai
+
+Gunakan `products.values()` di dalam `for` loop:
+
+```python
+for price in products.values():
+    print(price)
+```
+
+**Keluaran**:
+
+```
+990
+600
+250
+70
+```
+
+#### Iterasi Hanya Kunci
+
+Gunakan `products.keys()` atau langsung iterasi pada objek dictionary karena secara default iterasi akan melalui kuncinya:
+
+```python
+for product_name in products.keys():
+    print(product_name)
+
+# atau
+
+for product_name in products: # Default iterasi pada dictionary adalah kuncinya
+    print(product_name)
+```
+
+**Keluaran**:
+
+```
+Laptop
+Smartphone
+Tablet
+Headphones
+```
+
+#### Iterasi Pasangan Kunci-Nilai
+
+Gunakan `products.items()`. Setiap iterasi menghasilkan tuple `(kunci, nilai)`:
+
+```python
+for item_tuple in products.items():
+    print(item_tuple)
+```
+
+**Keluaran**:
+
+```
+('Laptop', 990)
+('Smartphone', 600)
+('Tablet', 250)
+('Headphones', 70)
+```
+
+Jika Anda ingin memisahkan kunci dan nilai ke dalam dua variabel loop terpisah, gunakan *unpacking* tuple:
+
+```python
+for product_name, price_value in products.items():
+    print(f"{product_name}: ${price_value}")
+```
+
+**Keluaran**:
+
+```
+Laptop: $990
+Smartphone: $600
+Tablet: $250
+Headphones: $70
+```
+
+> **Urutan variabel penting**: variabel pertama menampung kunci, variabel kedua menampung nilai.
+
+#### Contoh Praktis: Diskon 20%
+
+Kita bisa memperbarui semua harga dengan diskon 20% (mengalikan dengan 0.8) dan membulatkannya. Perhatikan bahwa Anda perlu mengakses dictionary berdasarkan kunci untuk memperbarui nilai.
+
+```python
+products = {
+    'Laptop': 990,
+    'Smartphone': 600,
+    'Tablet': 250,
+    'Headphones': 70,
+}
+
+for product_name, price_value in products.items():
+    products[product_name] = round(price_value * 0.8)
+
+print(products)
+```
+
+**Keluaran**:
+
+```
+{
+    'Laptop': 792,
+    'Smartphone': 480,
+    'Tablet': 200,
+    'Headphones': 56
+}
+```
+
+#### Menggunakan `enumerate()` untuk Mendapatkan Penghitung (*Counter*)
+
+Fungsi `enumerate()` mengembalikan objek enumerate yang memberikan bilangan bulat (seperti indeks atau counter) untuk setiap elemen yang diiterasi. Secara default, counter dimulai dari 0.
+
+Ketika digunakan langsung pada dictionary, `enumerate()` akan mengiterasi kuncinya:
+
+```python
+for count, product_name in enumerate(products):
+    print(count, product_name)
+```
+
+**Keluaran**:
+
+```
+0 Laptop
+1 Smartphone
+2 Tablet
+3 Headphones
+```
+
+Untuk nilai-nilai, gunakan `products.values()`:
+
+```python
+for count, price_value in enumerate(products.values()):
+    print(count, price_value)
+```
+
+**Keluaran**:
+
+```
+0 990
+1 600
+2 250
+3 70
+```
+
+Untuk pasangan kunci-nilai, gunakan `products.items()`:
+
+```python
+for count, item_tuple in enumerate(products.items()):
+    print(count, item_tuple)
+```
+
+**Keluaran**:
+
+```
+0 ('Laptop', 990)
+1 ('Smartphone', 600)
+2 ('Tablet', 250)
+3 ('Headphones', 70)
+```
+
+Anda juga bisa membongkar counter bersamaan dengan kunci dan nilai:
+
+```python
+for count, (product_name, price_value) in enumerate(products.items()):
+    print(f"{count+1}. {product_name}: ${price_value}") # +1 agar dimulai dari 1
+```
+
+**Keluaran**:
+
+```
+1. Laptop: $990
+2. Smartphone: $600
+3. Tablet: $250
+4. Headphones: $70
+```
+
+**Menentukan Nilai Awal Counter**: Berikan argumen kedua pada `enumerate()`.
+
+```python
+for count, (product_name, price_value) in enumerate(products.items(), 1):
+    print(f"{count}. Item: {product_name}, Price: ${price_value}")
+```
+
+Sekarang counter dimulai dari 1:
+
+```
+1. Item: Laptop, Price: $990
+2. Item: Smartphone, Price: $600
+3. Item: Tablet, Price: $250
+4. Item: Headphones, Price: $70
+```
+
+Teknik ini berlaku untuk semua variasi iterasi yang telah kita lihat.
+
+---
+
+### Apa Itu Set dan Bagaimana Cara Kerjanya?
+
+**Set** (himpunan) adalah struktur data bawaan Python yang **tidak menyimpan nilai duplikat**. Jika Anda mencoba menambahkan nilai yang sudah ada, set akan secara otomatis mengabaikannya dan hanya satu instance yang akan disimpan.
+
+Karakteristik utama set:
+
+*   **Mutable** (dapat diubah): Anda bisa menambah atau menghapus elemen. Namun, elemen-elemennya sendiri harus bertipe *immutable* (misalnya angka, string, tuple). List atau dictionary tidak bisa menjadi elemen set.
+*   **Unordered** (tidak berurutan): elemen tidak disimpan dalam urutan tertentu, sehingga Anda tidak bisa mengakses elemen menggunakan indeks (misalnya `my_set[0]`) atau kunci.
+*   Mendukung operasi himpunan matematika: *union*, *intersection*, *difference*, *symmetric difference*.
+
+#### Mendefinisikan Set
+
+Tulis elemen-elemennya di dalam kurung kurawal `{}`, dipisahkan oleh koma.
 
 ```python
 my_set = {1, 2, 3, 4, 5}
 print(my_set)
-# Output: {1, 2, 3, 4, 5}
+# Output: {1, 2, 3, 4, 5} (urutan mungkin berbeda)
+
+# Jika ada duplikat, hanya satu yang disimpan
+duplicate_set = {1, 2, 2, 3, 1}
+print(duplicate_set)
+# Output: {1, 2, 3}
 ```
 
-**Mendefinisikan `Set` Kosong:**
-
-Untuk membuat `set` kosong, gunakan fungsi `set()`. Menggunakan `{}` akan membuat `dictionary` kosong, bukan `set` kosong.
+**Catatan khusus untuk set kosong**:
+Jika Anda menulis `{}`, Python akan membuat **dictionary kosong**, bukan set kosong. Untuk membuat set kosong, gunakan fungsi `set()`.
 
 ```python
-empty_set = set() # Ini adalah set kosong
-empty_dict = {}   # Ini adalah dictionary kosong
+empty_set = set()   # Ini adalah set kosong
+empty_dict = {}     # Ini adalah dictionary kosong
 
-print(type(empty_set))
-# Output: <class 'set'>
-print(type(empty_dict))
-# Output: <class 'dict'>
+print(type(empty_set))  # Output: <class 'set'>
+print(type(empty_dict)) # Output: <class 'dict'>
 ```
 
-### Metode `Set` yang Umum
+#### Menambah Elemen – `add()`
 
-*   **`add(element)`**:
-    Menambahkan `element` ke dalam `set`. Jika `element` sudah ada, tidak ada yang terjadi karena `set` hanya berisi elemen unik.
+Gunakan metode `.add()` untuk menambahkan satu elemen ke set.
 
-    ```python
-    my_set = {1, 2, 3}
-    my_set.add(4)
-    print(my_set)
-    # Output: {1, 2, 3, 4}
-    my_set.add(2) # Tidak ada perubahan
-    print(my_set)
-    # Output: {1, 2, 3, 4}
-    ```
+```python
+my_set = {1, 2, 3}
+my_set.add(4)
+print(my_set)
+# Output: {1, 2, 3, 4}
 
-*   **`remove(element)` dan `discard(element)`**:
-    Kedua metode ini digunakan untuk menghapus `element` dari `set`.
-    *   **`remove(element)`**: Akan memunculkan `KeyError` jika `element` tidak ditemukan.
-    *   **`discard(element)`**: Tidak akan melakukan apa-apa (dan tidak memunculkan *error*) jika `element` tidak ditemukan.
+# Jika elemen sudah ada, set tidak berubah
+my_set.add(3)
+print(my_set)
+# Output: {1, 2, 3, 4}
+```
 
-    ```python
-    my_set = {1, 2, 3, 4, 5}
-    my_set.remove(4)
-    print(my_set)
-    # Output: {1, 2, 3, 5}
+#### Menghapus Elemen – `remove()` dan `discard()`
 
-    my_set.discard(10) # Tidak ada error, tidak ada perubahan
-    print(my_set)
-    # Output: {1, 2, 3, 5}
+*   `.remove(elemen)`: menghapus elemen yang ditentukan. **Melempar `KeyError` jika elemen tidak ditemukan** di dalam set.
+*   `.discard(elemen)`: menghapus elemen yang ditentukan. **Tidak error** jika elemen tidak ada di dalam set.
 
-    # my_set.remove(10) # Ini akan memunculkan KeyError
-    ```
-
-*   **`clear()`**:
-    Menghapus semua elemen dari `set`, membuatnya kosong.
-
-    ```python
-    my_set = {1, 2, 3}
-    my_set.clear()
-    print(my_set)
-    # Output: set()
-    ```
-
-### Operasi Himpunan Matematika
-
-`Set` mendukung berbagai operasi himpunan yang mirip dengan matematika. Misalkan kita memiliki dua `set`:
 ```python
 my_set = {1, 2, 3, 4, 5}
-your_set = {2, 3, 4, 6}
+
+my_set.remove(4)
+print(my_set)
+# Output: {1, 2, 3, 5}
+
+my_set.discard(4) # Aman meskipun 4 sudah tidak ada
+print(my_set)
+# Output: {1, 2, 3, 5}
+
+# Ini akan melempar KeyError karena 9 tidak ada
+# my_set.remove(9)
 ```
 
-*   **`issubset(other_set)` dan `issuperset(other_set)`**:
-    *   `issubset()`: Mengembalikan `True` jika semua elemen `set` pertama ada di `other_set`.
-    *   `issuperset()`: Mengembalikan `True` jika semua elemen `other_set` ada di `set` pertama.
+#### Menghapus Semua Elemen – `clear()`
 
-    ```python
-    small_set = {2, 3}
-    print(small_set.issubset(my_set))   # Output: True
-    print(my_set.issuperset(small_set)) # Output: True
-    ```
-
-*   **`isdisjoint(other_set)`**:
-    Mengembalikan `True` jika dua `set` tidak memiliki elemen yang sama (saling lepas).
-
-    ```python
-    another_set = {7, 8, 9}
-    print(my_set.isdisjoint(another_set)) # Output: True
-    print(my_set.isdisjoint(your_set))    # Output: False (karena ada irisan {2,3,4})
-    ```
-
-*   **Operator Gabungan (`|`) atau `union()`**:
-    Menggabungkan semua elemen unik dari kedua `set`.
-
-    ```python
-    print(my_set | your_set)  # Output: {1, 2, 3, 4, 5, 6}
-    print(my_set.union(your_set)) # Output: {1, 2, 3, 4, 5, 6}
-    ```
-
-*   **Operator Irisan (`&`) atau `intersection()`**:
-    Mengembalikan elemen yang sama (irisan) di kedua `set`.
-
-    ```python
-    print(my_set & your_set)  # Output: {2, 3, 4}
-    print(my_set.intersection(your_set)) # Output: {2, 3, 4}
-    ```
-
-*   **Operator Selisih (`-`) atau `difference()`**:
-    Mengembalikan elemen yang ada di `set` pertama, tetapi tidak ada di `set` kedua.
-
-    ```python
-    print(my_set - your_set)  # Output: {1, 5} (Elemen di my_set yang tidak di your_set)
-    print(your_set - my_set)  # Output: {6}   (Elemen di your_set yang tidak di my_set)
-    print(my_set.difference(your_set)) # Output: {1, 5}
-    ```
-
-*   **Operator Beda Setangkup (`^`) atau `symmetric_difference()`**:
-    Mengembalikan elemen yang ada di salah satu `set`, tetapi tidak di keduanya. Ini adalah gabungan dikurangi irisan.
-
-    ```python
-    print(my_set ^ your_set)  # Output: {1, 5, 6}
-    print(my_set.symmetric_difference(your_set)) # Output: {1, 5, 6}
-    ```
-
-*   **Operator `in`**:
-    Memeriksa keberadaan elemen di dalam `set`. Mengembalikan `True` jika ada, `False` jika tidak.
-
-    ```python
-    print(5 in my_set) # Output: True
-    print(10 in my_set) # Output: False
-    ```
-
----
-
-### Python Standard Library
-
-*Python Standard Library* (PSL) adalah koleksi modul bawaan Python yang menyediakan fungsionalitas siap pakai untuk berbagai tugas. Modul-modul ini mengimplementasikan solusi terstandardisasi, sehingga Anda tidak perlu menulis kode dasar dari awal.
-
-Contoh modul bawaan populer meliputi:
-*   `math`: Untuk fungsi matematika.
-*   `random`: Untuk menghasilkan angka acak.
-*   `re`: Untuk operasi reguler expression.
-*   `datetime`: Untuk manipulasi tanggal dan waktu.
-
-### Pernyataan `Import`
-
-Untuk menggunakan fungsionalitas dari modul yang ada di *Python Standard Library* (atau modul kustom lainnya), Anda perlu mengimpornya. Pernyataan `import` biasanya ditempatkan di bagian atas berkas Python.
-
-*   **Import Dasar:**
-    Gunakan kata kunci `import` diikuti nama modul. Untuk memanggil fungsi atau variabel dari modul tersebut, gunakan sintaks `module_name.function_name()`.
-
-    ```python
-    import math
-
-    # Menggunakan fungsi sqrt dari modul math
-    print(math.sqrt(36))
-    # Output: 6.0
-    ```
-
-*   **Mengimpor Modul dengan Alias:**
-    Anda dapat memberikan nama lain (*alias*) pada modul yang diimpor menggunakan kata kunci `as`. Ini berguna untuk nama modul yang panjang atau untuk mencegah konflik nama.
-
-    ```python
-    import math as m
-
-    print(m.sqrt(36))
-    # Output: 6.0
-    ```
-
-*   **Mengimpor Elemen Tertentu dari Modul:**
-    Gunakan `from module_name import item1, item2, ...` untuk mengimpor hanya elemen-elemen spesifik (fungsi, kelas, variabel) dari modul. Setelah diimpor, elemen-elemen ini dapat langsung digunakan tanpa awalan nama modul.
-
-    ```python
-    from math import radians, sin, cos
-
-    angle_degrees = 45
-    angle_radians = radians(angle_degrees) # Tidak perlu math.radians
-    sine_value = sin(angle_radians)       # Tidak perlu math.sin
-    cosine_value = cos(angle_radians)     # Tidak perlu math.cos
-
-    print(f"Sudut {angle_degrees} derajat sama dengan {angle_radians:.2f} radian.")
-    print(f"Nilai sinus: {sine_value:.2f}")
-    print(f"Nilai cosinus: {cosine_value:.2f}")
-    ```
-
-*   **Memberi Alias pada Elemen yang Diimpor:**
-    Mirip dengan modul, Anda bisa memberi alias pada elemen spesifik yang diimpor.
-
-    ```python
-    from os import path as pth, system as syscmd
-
-    # Sekarang Anda bisa menggunakan pth.join() atau syscmd()
-    ```
-
-*   **Import dengan Asterisk (`*`)**:
-    Digunakan untuk mengimpor semua nama (fungsi, kelas, variabel) yang didefinisikan dalam sebuah modul secara langsung ke *namespace* saat ini.
-
-    ```python
-    from math import *
-
-    print(sqrt(36))  # Bisa langsung memanggil sqrt() tanpa awalan math.
-    print(pi)        # Bisa langsung memanggil pi
-    ```
-    **Peringatan:** Penggunaan `from module import *` tidak disarankan dalam kode produksi karena dapat menyebabkan beberapa masalah:
-    1.  **Konflik Nama:** Jika Anda mengimpor dari beberapa modul dan mereka memiliki nama yang sama, salah satu definisi akan menimpa yang lain.
-    2.  **Kode Kurang Jelas:** Menjadi sulit untuk mengetahui dari modul mana sebuah fungsi berasal hanya dengan melihat namanya.
-    3.  **Masalah Performa:** Dapat mengimpor lebih banyak hal daripada yang sebenarnya Anda butuhkan.
-
----
-
-### `if __name__ == '__main__':`
-
-Variabel bawaan `__name__` adalah variabel khusus di Python. Perilakunya bergantung pada bagaimana berkas Python dieksekusi:
-
-*   Jika berkas Python dieksekusi secara langsung (sebagai program utama), nilai `__name__` akan menjadi `"__main__"`.
-*   Jika berkas Python diimpor sebagai modul ke berkas Python lain, nilai `__name__` akan menjadi nama modul itu sendiri (misalnya, `my_module` jika berkasnya `my_module.py`).
-
-Kondisional `if __name__ == '__main__':` adalah pola umum yang digunakan untuk menjalankan kode hanya ketika skrip dieksekusi sebagai program utama. Ini sangat berguna untuk:
-
-*   **Menjalankan Kode Pengujian:** Kode pengujian atau contoh penggunaan dapat ditempatkan di sini.
-*   **Menginisialisasi Program Utama:** Fungsi utama dari skrip (misalnya, `main()` function) sering dipanggil di dalam blok ini.
-*   **Mencegah Eksekusi Kode saat Diimpor:** Memastikan bahwa kode tertentu tidak dieksekusi ketika skrip diimpor ke berkas lain sebagai modul.
+Metode `clear()` menghapus seluruh elemen dari set, menjadikannya set kosong.
 
 ```python
-# my_script.py
+my_set = {1, 2, 3}
+my_set.clear()
+print(my_set)
+# Output: set()
+```
 
-def greet(name):
-    return f"Halo, {name}!"
+---
 
-def main():
-    print("Ini adalah fungsi utama dari skrip.")
-    print(greet("Dunia"))
+### Operasi Himpunan Matematika pada Set
 
-# Kode di dalam blok ini hanya akan dieksekusi jika my_script.py dijalankan langsung
+Python menyediakan metode dan operator untuk melakukan operasi himpunan (set operations) layaknya dalam matematika.
+
+Misalkan kita punya dua set:
+```python
+set_a = {1, 2, 3, 4, 5}
+set_b = {2, 3, 4, 6, 7}
+```
+
+#### Subset dan Superset
+
+*   `issubset(other_set)`: Mengembalikan `True` jika semua elemen dari set saat ini ada di `other_set`.
+*   `issuperset(other_set)`: Mengembalikan `True` jika semua elemen dari `other_set` ada di set saat ini.
+
+```python
+print(set_a.issubset(set_b))    # Output: False (karena 1 dan 5 tidak ada di set_b)
+print(set_b.issuperset(set_a))  # Output: False (set_b tidak memuat semua elemen set_a)
+```
+
+**Contoh bernilai `True`**:
+
+```python
+set_x = {1, 2}
+set_y = {1, 2, 3}
+print(set_x.issubset(set_y))   # Output: True
+print(set_y.issuperset(set_x)) # Output: True
+```
+
+#### Disjoint (Saling Lepas) – `isdisjoint()`
+
+Mengembalikan `True` jika kedua set tidak memiliki elemen yang sama (irisannya kosong).
+
+```python
+set_c = {1, 2, 3}
+set_d = {4, 5, 6}
+print(set_c.isdisjoint(set_d))  # Output: True
+
+set_e = {1, 2}
+set_f = {2, 3}
+print(set_e.isdisjoint(set_f))  # Output: False (karena ada elemen 2 yang sama)
+```
+
+#### Union (Gabungan) – Operator `|` atau Metode `union()`
+
+Menghasilkan set baru berisi semua elemen unik dari kedua set (gabungan).
+
+```python
+print(set_a | set_b)          # Output: {1, 2, 3, 4, 5, 6, 7}
+print(set_a.union(set_b))     # Output: {1, 2, 3, 4, 5, 6, 7}
+```
+
+#### Intersection (Irisan) – Operator `&` atau Metode `intersection()`
+
+Menghasilkan set baru berisi elemen yang ada di **kedua** set.
+
+```python
+print(set_a & set_b)                # Output: {2, 3, 4}
+print(set_a.intersection(set_b))    # Output: {2, 3, 4}
+```
+
+#### Difference (Selisih) – Operator `-` atau Metode `difference()`
+
+Menghasilkan set baru berisi elemen yang ada di set pertama tetapi **tidak** ada di set kedua.
+
+```python
+print(set_a - set_b)                # Output: {1, 5} (elemen di set_a yang tidak ada di set_b)
+print(set_b - set_a)                # Output: {6, 7} (elemen di set_b yang tidak ada di set_a)
+print(set_a.difference(set_b))      # Output: {1, 5}
+```
+
+#### Symmetric Difference (Beda Setangkup) – Operator `^` atau Metode `symmetric_difference()`
+
+Menghasilkan set baru berisi elemen yang hanya ada di salah satu set, tetapi tidak di keduanya (gabungan dikurangi irisan).
+
+```python
+print(set_a ^ set_b)                                # Output: {1, 5, 6, 7}
+print(set_a.symmetric_difference(set_b))            # Output: {1, 5, 6, 7}
+```
+
+#### Operator Penugasan Majemuk (*Compound Assignment*)
+
+Setiap operator di atas memiliki versi penugasan majemuk (misalnya `|=`, `&=`, `-=`, `^=`). Versi ini langsung memodifikasi set di sisi kiri dengan hasil operasi, tanpa membuat set baru.
+
+```python
+set_a = {1, 2, 3, 4, 5}
+set_b = {2, 3, 4, 6, 7}
+
+set_a -= set_b # Sama dengan set_a = set_a - set_b
+print(set_a)   # Output: {1, 5}
+```
+
+#### Memeriksa Keanggotaan dengan `in`
+
+Anda dapat menggunakan operator `in` untuk memeriksa apakah suatu elemen adalah anggota dari set.
+
+```python
+my_set = {1, 2, 3}
+print(2 in my_set)   # Output: True
+print(5 in my_set)   # Output: False
+```
+
+---
+
+### Pustaka Standar Python dan Cara Mengimpor Modul
+
+Dalam pengembangan perangkat lunak, **pustaka** (*library*) dan **modul** ibarat kotak perkakas yang penuh peralatan. Alih-alih menulis semua kode dari nol, pustaka menyediakan kode yang sudah jadi dan dapat digunakan kembali, seperti fungsi, kelas, dan struktur data. Modul adalah satu berkas `.py` yang berisi definisi-definisi tersebut.
+
+Python memiliki **pustaka standar** yang sangat luas, berisi modul-modul bawaan yang telah teruji untuk berbagai kebutuhan, misalnya:
+
+*   Berinteraksi dengan sistem operasi (`os`, `sys`).
+*   Bekerja dengan berkas (`io`, `pathlib`).
+*   Jaringan (`socket`, `http`).
+*   Tanggal dan waktu (`datetime`, `time`).
+*   Operasi matematika (`math`, `decimal`).
+*   Ekspresi reguler (`re`).
+*   Pengujian dan debugging (`unittest`, `pdb`).
+*   Dan masih banyak lagi.
+
+**Contoh** modul bawaan yang populer:
+
+*   `math` – fungsi matematika lanjutan (akar kuadrat, trigonometri, dll.).
+*   `random` – menghasilkan angka acak.
+*   `re` – bekerja dengan ekspresi reguler.
+*   `datetime` – bekerja dengan tanggal dan waktu.
+
+#### Pernyataan `import`
+
+Untuk mengakses variabel, konstanta, fungsi, atau kelas yang didefinisikan dalam modul, gunakan pernyataan `import`. Pernyataan ini biasanya ditulis di bagian atas berkas Python.
+
+**Bentuk paling dasar**:
+
+```python
+import module_name
+```
+
+Setelah diimpor, Anda dapat memanggil fungsi atau mengakses atribut modul dengan notasi titik:
+
+```python
+module_name.function_name()
+module_name.variable_name
+```
+
+**Contoh**: menghitung akar kuadrat dari 36 menggunakan modul `math`.
+
+```python
+import math
+result = math.sqrt(36)
+print(result) # Output: 6.0
+```
+
+#### Memberikan Alias pada Modul
+
+Gunakan kata kunci `as` untuk memberi nama alias (nama panggilan) pada modul. Ini sering dipakai untuk menyingkat nama modul yang panjang atau menghindari konflik penamaan jika ada beberapa modul dengan nama yang serupa.
+
+```python
+import math as m
+result = m.sqrt(36)
+print(result) # Output: 6.0
+```
+
+#### Mengimpor Elemen Tertentu
+
+Jika Anda hanya membutuhkan beberapa fungsi atau kelas dari sebuah modul, gunakan sintaks `from ... import ...`.
+
+```python
+from module_name import name1, name2
+```
+
+Dengan cara ini, Anda bisa langsung memanggil `name1` atau `name2` tanpa awalan modul.
+
+**Contoh**: hanya mengimpor `radians`, `sin`, dan `cos` dari `math`.
+
+```python
+from math import radians, sin, cos
+
+angle_degrees = 40
+angle_radians = radians(angle_degrees) # Tidak perlu math.radians()
+
+sine_value = sin(angle_radians)        # Tidak perlu math.sin()
+cos_value = cos(angle_radians)         # Tidak perlu math.cos()
+
+print(sine_value)  # Output: 0.6427876096865393
+print(cos_value)   # Output: 0.766044443118978
+```
+
+Anda juga bisa memberikan alias pada elemen yang diimpor:
+
+```python
+from math import radians as rad, sin as s, cos as c
+
+angle_degrees = 40
+angle_radians = rad(angle_degrees)
+print(s(angle_radians))
+print(c(angle_radians))
+```
+
+> **Peringatan**: Mengimpor elemen satu per satu seperti ini dapat menyebabkan konflik nama jika sudah ada fungsi atau variabel dengan nama yang sama di skrip Anda. Pertimbangkan jenis impor yang paling sesuai untuk kejelasan dan menghindari konflik.
+
+#### Mengimpor Semua Isi Modul dengan Asterisk `*`
+
+```python
+from module_name import *
+```
+
+Artinya: impor semua nama (fungsi, kelas, variabel) dari modul, dan jadikan tersedia langsung di *namespace* saat ini tanpa awalan modul.
+
+```python
+from math import *
+print(sqrt(36))   # Output: 6.0
+print(pow(5, 2))  # Output: 25.0
+print(exp(1))     # Output: 2.718281828459045
+```
+
+> **Tidak disarankan** untuk penggunaan umum, terutama dalam proyek besar atau modul, karena dapat menyebabkan *namespace collision* (bentrokan nama) dan menyulitkan pelacakan asal-usul suatu nama (misalnya, dari modul mana `sqrt` berasal?). Ini lebih sering digunakan dalam skrip kecil atau saat *interactive shell*.
+
+#### Mengimpor Konstanta dan Kelas
+
+Pernyataan `import` berlaku sama untuk konstanta, kelas, dan elemen lainnya yang didefinisikan dalam modul.
+
+**Contoh konstanta `pi`**:
+
+```python
+import math
+print(math.pi)   # Output: 3.141592653589793
+```
+
+**Contoh kelas `date` dari modul `datetime`**:
+
+```python
+import datetime
+# Membuat objek tanggal dengan tahun, bulan, hari
+birthday = datetime.date(1959, 7, 15)
+print(birthday.day)    # Output: 15
+print(birthday.month)  # Output: 7
+print(birthday.year)   # Output: 1959
+```
+
+Informasi lebih lengkap mengenai modul dapat ditemukan di dokumentasi resmi Python.
+
+---
+
+### Idiom Penting: `if __name__ == '__main__'`
+
+`__name__` adalah variabel bawaan khusus di Python yang secara otomatis diatur oleh interpreter.
+
+*   Ketika sebuah berkas Python **dijalankan langsung** (misalnya `python myscript.py`), Python mengatur nilai variabel `__name__` menjadi string `"`__main__`"`.
+*   Jika berkas tersebut **diimpor sebagai modul** ke skrip lain (misalnya `import myscript`), nilai `__name__` akan berisi nama modul tersebut (biasanya nama berkas tanpa ekstensi `.py`, seperti `"myscript"`).
+
+Oleh karena itu, Anda akan sering menemukan kondisi berikut dalam skrip Python:
+
+```python
 if __name__ == '__main__':
-    main()
-    print("Skrip ini dijalankan sebagai program utama.")
+    # Kode di sini hanya akan dijalankan saat skrip ini dieksekusi sebagai program utama.
+    print("Saya berjalan sebagai skrip utama!")
+    # Panggil fungsi atau jalankan logika utama aplikasi di sini
+    main_function()
+else:
+    # Kode di sini akan dijalankan jika skrip ini diimpor sebagai modul.
+    print("Saya diimpor sebagai modul.")
 
-# Jika my_script.py diimpor ke file lain, misalnya:
-# import my_script
-# print(my_script.greet("Pengguna"))
-# Output:
-# Halo, Pengguna!
-# (Fungsi main() tidak akan terpanggil secara otomatis)
+def main_function():
+    print("Fungsi utama telah dijalankan.")
+```
+
+Kode di dalam blok `if __name__ == '__main__':` hanya akan dieksekusi jika skrip dijalankan secara langsung. Jika skrip diimpor sebagai modul, blok tersebut tidak akan dijalankan, melainkan blok `else` (jika ada) atau kode di luar `if`.
+
+Pola ini memungkinkan sebuah berkas Python memiliki dua tujuan: bisa dijalankan langsung untuk logika utamanya, atau diimpor sebagai modul untuk menyediakan fungsi atau kelas tanpa secara otomatis menjalankan logika utama di dalamnya. Ini adalah praktik terbaik untuk membuat kode Python yang *reusable* (dapat digunakan kembali).
+
+---
+
+## Rangkuman: Dictionary dan Set
+
+### Dictionary
+
+*   **Dictionary**: Struktur data bawaan yang menyimpan koleksi pasangan kunci-nilai. Kunci harus unik dan bertipe *immutable*.
+*   **Sintaks umum**:
+    ```python
+    my_dict = {
+        key1: value1,
+        key2: value2
+    }
+    ```
+*   **Konstruktor `dict()`**: Cara alternatif membangun dictionary dari iterable pasangan (*tuple* atau *list* dari *list*).
+    ```python
+    another_dict = dict([('key_a', 1), ('key_b', 2)])
+    ```
+*   **Akses dan Perbarui**: Menggunakan notasi kurung siku `my_dict[key]`. Jika kunci tidak ada saat mengakses, akan melempar `KeyError`. Saat memperbarui, akan menambah jika kunci baru atau menimpa nilai jika kunci sudah ada.
+
+#### Metode-Metode Penting Dictionary (Ringkasan)
+
+| Metode | Deskripsi |
+| :----- | :------------------------------------------------------ |
+| `get(key, default)` | Mengambil nilai untuk `key`. Jika `key` tidak ada, kembalikan `default` (jika diberikan) atau `None`. |
+| `keys()` | Mengembalikan *view object* dari semua kunci. |
+| `values()` | Mengembalikan *view object* dari semua nilai. |
+| `items()` | Mengembalikan *view object* dari semua pasangan (kunci, nilai) sebagai tuple. |
+| `clear()` | Menghapus semua pasangan kunci-nilai dari dictionary. |
+| `pop(key, default)` | Menghapus `key` dan mengembalikan nilainya. Jika `key` tidak ada, kembalikan `default` (jika diberikan) atau melempar `KeyError`. |
+| `popitem()` | Menghapus dan mengembalikan pasangan (kunci, nilai) yang terakhir disisipkan (sejak Python 3.7). |
+| `update(other_dict)` | Memperbarui dictionary dengan pasangan dari `other_dict`. Kunci yang sama akan ditimpa, kunci baru akan ditambahkan. |
+
+#### Perulangan pada Dictionary (Ringkasan)
+
+```python
+products = {'A': 10, 'B': 20}
+
+# Iterasi nilai
+for price in products.values():
+    print(price)
+
+# Iterasi kunci (default)
+for product_name in products:    # atau products.keys()
+    print(product_name)
+
+# Iterasi pasangan kunci-nilai
+for product_name, price_value in products.items():
+    print(f"{product_name}: {price_value}")
+
+# Iterasi dengan counter menggunakan enumerate()
+for index, (product_name, price_value) in enumerate(products.items(), start=1):
+    print(f"{index}. {product_name}: {price_value}")
+```
+
+### Set
+
+*   **Set**: Struktur data yang tidak menyimpan duplikat, *mutable* (elemennya bisa ditambah/dihapus), *unordered* (tidak berurutan). Elemen set harus bertipe *immutable*.
+*   **Mendefinisikan set**: Menggunakan kurung kurawal `{}` (misalnya `{1, 2, 3}`). Duplikat akan otomatis dihapus.
+*   **Set kosong**: Gunakan `set()` karena `{}` membuat dictionary kosong.
+
+#### Metode-Metode Set (Ringkasan)
+
+| Metode | Deskripsi |
+| :----- | :------------------------------------------------------ |
+| `add(elem)` | Menambah elemen ke set. Jika elemen sudah ada, set tidak berubah. |
+| `remove(elem)` | Menghapus elemen. Melempar `KeyError` jika elemen tidak ditemukan. |
+| `discard(elem)` | Menghapus elemen. Tidak error jika elemen tidak ditemukan. |
+| `clear()` | Menghapus semua elemen dari set. |
+
+#### Operasi Himpunan (Ringkasan)
+
+| Operator | Metode                | Hasil                                     |
+| :------- | :-------------------- | :---------------------------------------- |
+| `&#124;` (union) | `union()`             | Set baru berisi semua elemen unik dari kedua set. |
+| `&` (intersection) | `intersection()`      | Set baru berisi elemen yang ada di kedua set. |
+| `-` (difference) | `difference()`        | Set baru berisi elemen di set kiri yang tidak ada di set kanan. |
+| `^` (symmetric difference) | `symmetric_difference()` | Set baru berisi elemen yang unik di salah satu set (bukan di keduanya). |
+
+*   **Operator penugasan majemuk**: `|=`, `&=`, `-=`, `^=` digunakan untuk memodifikasi set secara in-place.
+*   **Keanggotaan**: Gunakan `elem in my_set` untuk memeriksa keberadaan elemen.
+
+### Pustaka Standar dan `import`
+
+*   **Pustaka standar Python** menyediakan modul-modul bawaan yang kaya fungsi, seperti `math`, `random`, `re`, `datetime`, dll.
+*   **Import dasar**: `import module_name`. Elemen diakses dengan `module_name.element_name`.
+*   **Alias**: `import module_name as alias`. Element diakses dengan `alias.element_name`.
+*   **Impor spesifik**: `from module_name import element1, element2`. Elemen diakses langsung dengan `element1`.
+*   **Impor semua `*`**: `from module_name import *`. **Tidak disarankan** karena dapat menyebabkan bentrokan nama dan mengurangi kejelasan kode.
+*   **Variabel `__name__`**:
+    *   Bernilai `"__main__"` jika berkas dieksekusi langsung.
+    *   Bernilai nama modul jika berkas diimpor.
+    *   Digunakan dalam `if __name__ == '__main__':` untuk menjalankan kode hanya saat berkas dieksekusi sebagai program utama.

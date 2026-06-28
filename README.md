@@ -11,9 +11,9 @@ I also add every module review to every folder README.
 
 | Course | Status | Projects |
 |--------|--------|----------|
-| **Python Basics** | 🟢 Done | Report Card Printer, Employee Profile Generator, Bill Splitter, Movie Ticket Booking Calculator, Travel Weather Planner, Discount Calculator, RPG Character |
+| **Python Basics** | 🟢 Done | Travel Weather Planner, Discount Calculator, RPG Character |
 | **Install Python** | 🟢 Done | - |
-| **Loops and Sequences** | 🟢 Done | Pin Extractor, Number Pattern Generator |
+| **Loops and Sequences** | 🟢 Done | Number Pattern Generator |
 | **Dictionaries and Sets** | 🟢 Done | Medical Data Validator |
 | **User Configuration Manager (Certification Project)** | 🟢 Done | User Configuration Manager |
 | **Error Handling** | ⬜ Not Started | ... |
