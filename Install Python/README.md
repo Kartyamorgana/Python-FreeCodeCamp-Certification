@@ -1,11 +1,23 @@
-## Daftar Isi
-1. [Mengapa Perlu Penyiapan Lokal?](#mengapa-perlu-penyiapan-lokal)
-2. [Cara Menginstal Python di macOS](#cara-menginstal-python-di-macos)
-3. [Cara Menginstal Python di Windows](#cara-menginstal-python-di-windows)
-4. [Python di Linux](#python-di-linux)
-5. [Menjalankan Skrip Python secara Lokal](#menjalankan-skrip-python-secara-lokal)
-6. [Menggunakan Shell Interaktif Python](#menggunakan-shell-interaktif-python)
-7. [Ringkasan Instalasi Python](#ringkasan-instalasi-python)
+# Daftar Isi
+
+- [Menginstal, Mengonfigurasi, dan Menggunakan Python di Lingkungan Lokal](#menginstal-mengonfigurasi-dan-menggunakan-python-di-lingkungan-lokal)
+  - [Mengapa Perlu Penyiapan Lokal?](#mengapa-perlu-penyiapan-lokal)
+  - [2. Cara Menginstal Python di macOS](#2-cara-menginstal-python-di-macos)
+    - [Verifikasi Instalasi](#verifikasi-instalasi)
+  - [3. Cara Menginstal Python di Windows](#3-cara-menginstal-python-di-windows)
+  - [4. Python di Linux](#4-python-di-linux)
+  - [5. Menjalankan Skrip Python secara Lokal](#5-menjalankan-skrip-python-secara-lokal)
+    - [Menyiapkan Folder Proyek di VS Code](#menyiapkan-folder-proyek-di-vs-code)
+  - [6. Menggunakan Shell Interaktif Python (*Interactive Shell*)](#6-menggunakan-shell-interaktif-python-interactive-shell)
+    - [Memulai Shell Interaktif](#memulai-shell-interaktif)
+    - [Siklus REPL (*Read, Evaluate, Print, Loop*)](#siklus-repl-read-evaluate-print-loop)
+    - [Keluar dari Shell Interaktif](#keluar-dari-shell-interaktif)
+    - [Kapan Menggunakan Shell Interaktif vs Editor](#kapan-menggunakan-shell-interaktif-vs-editor)
+  - [7. Ringkasan Instalasi Python](#7-ringkasan-instalasi-python)
+    - [Python di Lingkungan Lokal](#python-di-lingkungan-lokal)
+    - [Menggunakan Shell Interaktif Python](#menggunakan-shell-interaktif-python)
+
+---
 
 ## Menginstal, Mengonfigurasi, dan Menggunakan Python di Lingkungan Lokal
 
