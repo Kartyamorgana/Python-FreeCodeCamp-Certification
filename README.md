@@ -11,7 +11,7 @@ I also add every module review to every folder README.
 
 | Course | Status | Projects |
 |--------|--------|----------|
-| **Python Basics** | 🟢 Done | Travel Weather Planner, Discount Calculator, RPG Character |
+| **Python Basics** | 🟢 Done | Basic Text Analysis, Determination of Grade, Discount Calculator, RPG Character, Shopping Discount System, Temperature Convertion, Travel Weather Planner |
 | **Install Python** | 🟢 Done | - |
 | **Loops and Sequences** | 🟢 Done | Number Pattern Generator |
 | **Dictionaries and Sets** | 🟢 Done | Medical Data Validator |
