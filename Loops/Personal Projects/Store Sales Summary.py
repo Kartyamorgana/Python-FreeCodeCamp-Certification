@@ -11,13 +11,13 @@ total_pendapatan = sum(map(lambda x: x[1] * x[2], transaksi))
 print(f"Total pendapatan: Rp {total_pendapatan:,}".replace(',', '.'))
 
 print("\nProduk dengan penjualan terbanyak:")
-maxNum = 0
-maxName = ''
-for item, quantity, price in transaksi:
-    if quantity > maxNum:
-        maxNum = quantity
-        maxName = item
-print(f"- {maxName} ({maxNum} unit)")
+maxQty = 0
+for _, quantity, _ in transaksi:
+    if quantity > maxQty:
+        maxQty = quantity
+produkTerbanyak = [item for item, quantity, _ in transaksi if quantity == maxQty]
+for produk in produkTerbanyak:
+    print(f"- {produk} ({maxQty} unit)")
 
 print("\nTransaksi bernilai tinggi (> Rp 500.000):")
 filtered = (item for item in transaksi if (item[1] * item[2]) >= 500000)
