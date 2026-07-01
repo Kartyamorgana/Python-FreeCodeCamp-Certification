@@ -14,9 +14,9 @@
 | **Python Basics** | 🟢 Done | Basic Text Analysis, Determination of Grade, Discount Calculator, RPG Character, Shopping Discount System, Temperature Convertion, Travel Weather Planner |
 | **Install Python** | 🟢 Done | - |
 | **Loops and Sequences** | 🟢 Done | Number Pattern Generator, Data Sort, Even and Odd, Grade Analysis, Guess The Secret Word, Shopping List, To-Do-List |
-| **Dictionaries and Sets** | 🟢 Done | Medical Data Validator |
+| **Dictionaries and Sets** | 🟢 Done | Medical Data Validator, Area of 2D Shape, Employee Attendance, Fruit Store Inventory, Sales Report, Simple Student Information System, Weekly Temperature Conversion, Word Set Analysis |
 | **User Configuration Manager (Certification Project)** | 🟢 Done | User Configuration Manager |
-| **Error Handling** | ⬜ Not Started | ... |
+| **Error Handling** | 🟢 Done | ... |
 | **Classes and Objects** | ⬜ Not Started | ... |
 | **Budget APP (Certification Project)** | ⬜ Not Started | ... |
 | **Object-Oriented Programming (OOP)** | ⬜ Not Started | ... |
